@@ -1,4 +1,5 @@
-pandas 
+pandas
 numpy
 seaborn
--e .
+scikit-learn
+#-e .
