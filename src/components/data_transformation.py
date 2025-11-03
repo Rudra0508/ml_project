@@ -16,11 +16,15 @@ from src.utills import save_object
 
 @dataclass
 class DataTransformationConfig:
-
+    """
+    Configuration class that defines where the preprocessor object (.pkl) will be saved.
+    This ensures it is always stored in the root-level 'artifacts' directory.
+    """
     base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))  # Go to project root
     artifacts_dir = os.path.join(base_path, "artifacts")
-    
+
     preprocessor_obj_file_path: str = os.path.join(artifacts_dir, "preprocessor.pkl")
+    model_obj_file_path: str = os.path.join(artifacts_dir, "model.pkl")  # ✅ Add model path here
 
 
 class dataTransformation:
@@ -102,13 +106,16 @@ class dataTransformation:
 
             logging.info("Applying preprocessing object on training and testing dataframes")
 
-            # 🟢 FIXED PART — Apply preprocessing before combining arrays
+            # Apply preprocessing before combining arrays
             input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)
 
             # Combine input features and target column
             train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
+
+            # Ensure 'artifacts' directory exists
+            os.makedirs(os.path.dirname(self.data_transformation_config.preprocessor_obj_file_path), exist_ok=True)
 
             logging.info("Saving preprocessing object")
 
@@ -120,7 +127,8 @@ class dataTransformation:
             return (
                 train_arr,
                 test_arr,
-                self.data_transformation_config.preprocessor_obj_file_path
+                self.data_transformation_config.preprocessor_obj_file_path,
+                self.data_transformation_config.model_obj_file_path  # ✅ Added return path for model
             )
 
         except Exception as e:
