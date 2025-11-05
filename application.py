@@ -43,5 +43,5 @@ def predict_datapoint():
 
 if __name__ == "_main_":
     
-    port = int(os.environ.get("PORT", 8080))
+    port = int(os.environ.get("PORT", 8000))
     application.run(host="0.0.0.0", port=port)
