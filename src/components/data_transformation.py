@@ -37,13 +37,13 @@ class dataTransformation:
         that applies transformations to both numerical and categorical features.
         """
         try:
-            numerical_features = ["writing score", "reading score"]
+            numerical_features = ["writing_score", "reading_score"]
             categorical_features = [
                 "gender",
-                "race/ethnicity",
-                "parental level of education",
+                "race_ethnicity",
+                "parental_level_of_education",
                 "lunch",
-                "test preparation course"
+                "test_preparation_course"
             ]
 
             # Pipeline for numerical features
@@ -58,7 +58,7 @@ class dataTransformation:
             cat_pipeline = Pipeline(
                 steps=[
                     ("imputer", SimpleImputer(strategy="most_frequent")),
-                    ("one_hot_encoder", OneHotEncoder()),
+                    ("one_hot_encoder", OneHotEncoder(handle_unknown='ignore')),
                     ("scaler", StandardScaler(with_mean=False))
                 ]
             )
@@ -95,8 +95,8 @@ class dataTransformation:
             logging.info("Obtaining preprocessor object")
             preprocessing_obj = self.get_data_transformer_object()
 
-            target_column_name = "math score"
-            numerical_columns = ["writing score", "reading score"]
+            target_column_name = "math_score"
+            numerical_columns = ["writing_score", "reading_score"]
 
             input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_df[target_column_name]
