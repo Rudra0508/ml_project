@@ -1,8 +1,10 @@
+pip
+wheel
+setuptools
 pandas
 numpy
 seaborn
 scikit-learn
 flask
 gunicorn
-pickle
 #-e .
