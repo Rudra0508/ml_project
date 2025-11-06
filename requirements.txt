@@ -6,6 +6,5 @@ numpy
 seaborn
 scikit-learn
 flask
-gunicorn
 dill
 #-e .
